@@ -77,3 +77,16 @@ exports.newPost = (req, res, next) => {
     }
   });
 };
+//TODO Test for errors
+//CHANGE THE CURRENT POST STATUS
+exports.changePostStats = (req, res, next) => {
+  Post.findByIdAndUpdate(
+    req.params.id,
+    { published: !published },
+    (err, resulst) => {
+      if (err) return next(err);
+      //Success
+      res.json(result);
+    }
+  );
+};
