@@ -3,7 +3,7 @@ const moment = require("moment");
 
 //DISPLAY HOME PAGE WITH ALL PUBLISHED POST
 exports.index = (req, res, next) => {
-  Post.find({ published: false })
+  Post.find({ published: true })
     .sort({ created: -1 })
     .exec((err, posts) => {
       if (err) return next(err);
@@ -77,16 +77,32 @@ exports.newPost = (req, res, next) => {
     }
   });
 };
-//TODO Test for errors
 //CHANGE THE CURRENT POST STATUS
-exports.changePostStats = (req, res, next) => {
-  Post.findByIdAndUpdate(
-    req.params.id,
-    { published: !published },
-    (err, resulst) => {
+exports.changePostStatus = (req, res, next) => {
+  Post.findById(req.params.id, (err, post) => {
+    if (err) return next(err);
+    post.published = !post.published;
+    post.save((err) => {
       if (err) return next(err);
-      //Success
-      res.json(result);
+      else {
+        res.json(post);
+      }
+    });
+  });
+};
+
+//EDIT POST
+exports.editPost = (req, res, next) => {
+  Post.findById(req.params.id, (err, post) => {
+    if (err) return next(err);
+    else {
+      (post.title = req.body.title), (post.text = req.body.text);
+      post.save((err) => {
+        if (err) return next(err);
+        else {
+          res.json(post);
+        }
+      });
     }
-  );
+  });
 };
