@@ -17,11 +17,13 @@ exports.index = (req, res, next) => {
 
 //DISPLAY ALL POST IN DB
 exports.allPost = (req, res, next) => {
-  Post.find({}).exec((err, posts) => {
-    if (err) return next(error);
-    //Success, display!
-    res.json(posts);
-  });
+  Post.find({})
+    .sort({ created: -1 })
+    .exec((err, posts) => {
+      if (err) return next(error);
+      //Success, display!
+      res.json(posts);
+    });
 };
 
 //DISPLAY A SINGLEPOST WITH COMMENTS
@@ -104,5 +106,12 @@ exports.editPost = (req, res, next) => {
         }
       });
     }
+  });
+};
+//DELETE POST
+exports.deletePost = (req, res, next) => {
+  Post.findByIdAndRemove(req.params.id, (err, result) => {
+    if (err) return next(err);
+    res.json(result);
   });
 };

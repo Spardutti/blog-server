@@ -27,13 +27,16 @@ router.put("/blog/:id", jwtProtected, postController.newComment);
 router.post("/admin/blog/new", jwtProtected, postController.newPost);
 
 //DISPLAY ALL POST PUBLISHED & UNPUBLISHED
-router.get("/admin/blog/all", jwtProtected, postController.allPost);
+router.get("/admin/blog/all", postController.allPost);
 
 //CHANGE THE POST STATUS TO PUBLIC OR PRIVATE
 router.put("/admin/:id/public", postController.changePostStatus);
 
 //EDIT POST TITLE AND TEXT
 router.put("/admin/:id/edit", jwtProtected, postController.editPost);
+
+//DELETE THE CURRENT POST
+router.delete("/admin/:id/delete", jwtProtected, postController.deletePost);
 
 /////////////////////////////////// USER ////////////////////////////////
 
