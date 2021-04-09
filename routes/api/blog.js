@@ -12,6 +12,10 @@ const jwtProtected = passport.authenticate("jwt", { session: false });
 //////////////////////// POST ROUTES /////////////////////////////////
 ////////////////////////  VISITORS //////////////////////////////////
 
+router.get("/", (req, res) => {
+  res.redirect("/blog");
+});
+
 //DISPLAY HOME PAGE WITH PUBLISHED POST
 router.get("/blog", postController.index);
 
